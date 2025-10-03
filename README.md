@@ -1,2 +1,1695 @@
-https://ymojahidtalukdar1-ui.github.io/Aso-pori/
-moojjahhidt
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>এসো পড়ি - পড়া শেয়ারিং</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Kalpurush', 'Segoe UI', sans-serif;
+        }
+
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #38a169;
+            --danger: #e53e3e;
+            --warning: #dd6b20;
+            --light: #f7fafc;
+            --dark: #2d3748;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 100vh;
+            color: var(--dark);
+        }
+
+        /* Authentication Styles */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .auth-box {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px 30px;
+            position: relative;
+        }
+
+        .admin-login-corner {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+
+        .admin-settings-btn {
+            background: transparent;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .admin-settings-btn:hover {
+            transform: rotate(90deg);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .logo p {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 25px;
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .form-container {
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4a5568;
+            font-weight: 600;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .phone-input {
+            display: flex;
+            align-items: center;
+        }
+
+        .country-code {
+            background: #f7fafc;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-right: none;
+            border-radius: 10px 0 0 10px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .phone-input input {
+            border-radius: 0 10px 10px 0;
+        }
+
+        button {
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #4a5568;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-success {
+            background: var(--success);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+
+        .success {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .error {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        /* App Styles */
+        .app-container {
+            display: none;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid white;
+            cursor: pointer;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: auto;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* Dashboard Styles */
+        .welcome-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .welcome-card h2 {
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+
+        .date-display {
+            color: #718096;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .action-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .action-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        /* Search Bar Styles */
+        .search-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .search-bar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .search-input {
+            flex: 1;
+        }
+        
+        .class-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            display: none;
+        }
+        
+        .class-filter {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .class-filter:hover {
+            background: #edf2f7;
+        }
+        
+        .class-filter.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .toggle-class-filters {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .toggle-class-filters button {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            width: auto;
+            padding: 8px 16px;
+        }
+
+        /* Add Study Material Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #718096;
+        }
+
+        /* File Upload Styles */
+        .file-upload-container {
+            margin-top: 10px;
+        }
+
+        .file-upload-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .file-upload-input input {
+            flex: 1;
+        }
+
+        .file-preview {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .file-preview-item {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid #e2e8f0;
+        }
+
+        .file-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .file-preview-item .remove-file {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        /* Study Materials List */
+        .study-materials {
+            display: grid;
+            gap: 20px;
+        }
+
+        .material-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--primary);
+            position: relative;
+        }
+
+        .material-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .material-title {
+            font-size: 20px;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .material-class {
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .material-date {
+            color: #718096;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .material-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #718096;
+            font-size: 14px;
+            font-style: italic;
+        }
+
+        .author-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .material-content {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .material-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .material-image {
+            width: 100%;
+            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .material-image:hover {
+            transform: scale(1.05);
+        }
+
+        .homework {
+            background: #fffaf0;
+            border: 1px solid #fed7aa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .homework h4 {
+            color: var(--warning);
+            margin-bottom: 8px;
+        }
+
+        .material-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .delete-btn {
+            background: var(--danger);
+            width: auto;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .edit-btn {
+            background: var(--warning);
+            width: auto;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .no-materials {
+            text-align: center;
+            padding: 50px 20px;
+            color: #718096;
+        }
+
+        .no-materials h3 {
+            margin-bottom: 10px;
+        }
+
+        /* Admin Only Styles */
+        .admin-only {
+            border: 2px solid var(--danger);
+        }
+
+        .admin-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--danger);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* Admin Panel Styles */
+        .admin-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .admin-panel h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .admin-panel h4 {
+            color: var(--dark);
+            margin-top: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .admin-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .admin-control-card {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .admin-control-card h4 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .admin-control-card p {
+            color: #718096;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .admin-class-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .admin-class-card {
+            background: var(--primary);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .admin-class-card:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .stat-card {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #718096;
+        }
+
+        /* User Profile Styles */
+        .profile-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            cursor: pointer;
+        }
+
+        .profile-info h3 {
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .profile-info p {
+            color: #718096;
+        }
+
+        /* Users List Styles */
+        .users-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .user-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .user-avatar-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 15px;
+            border: 3px solid var(--primary);
+            cursor: pointer;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+
+        /* Admin Setup Styles */
+        .admin-setup {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .admin-setup h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Profile Update Section */
+        .profile-update-section {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 2px dashed #cbd5e0;
+        }
+
+        .profile-update-section h4 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .avatar-upload-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        #profile-avatar-preview {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #718096;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 10px;
+        }
+
+        /* Image Modal */
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-modal-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .image-modal-content img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .auth-box {
+                padding: 30px 20px;
+            }
+            
+            .material-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .material-actions {
+                flex-direction: column;
+            }
+            
+            .admin-controls {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .users-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-bar {
+                flex-direction: column;
+            }
+            
+            .class-filters {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Authentication Section -->
+    <div class="auth-container" id="auth-container">
+        <div class="auth-box">
+            <div class="admin-login-corner">
+                <button class="admin-settings-btn" onclick="handleAdminLogin()">⚙️</button>
+            </div>
+
+            <div class="logo">
+                <h1>এসো পড়ি</h1>
+                <p>প্রতিদিনের পড়া শেয়ারিং প্ল্যাটফর্ম</p>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" data-tab="login">লগইন</div>
+                <div class="tab" data-tab="signup">সাইন আপ</div>
+            </div>
+
+            <!-- Login Form -->
+            <div class="form-container active" id="login-form">
+                <!-- START OF CHANGE: Phone input replaced with email input -->
+                <div class="form-group">
+                    <label for="login-email">ইমেইল</label>
+                    <input type="email" id="login-email" placeholder="আপনার ইমেইল দিন">
+                </div>
+                <!-- END OF CHANGE -->
+                <div class="form-group">
+                    <label for="login-password">পাসওয়ার্ড</label>
+                    <input type="password" id="login-password" placeholder="আপনার পাসওয়ার্ড দিন">
+                </div>
+                <button class="btn-full" id="login-btn">লগইন করুন</button>
+                <div class="message" id="login-message"></div>
+            </div>
+
+            <!-- Sign Up Form -->
+            <div class="form-container" id="signup-form">
+                <div class="form-group">
+                    <label for="signup-name">পুরো নাম</label>
+                    <input type="text" id="signup-name" placeholder="আপনার পুরো নাম দিন">
+                </div>
+                <!-- START OF CHANGE: Phone input replaced with email input -->
+                <div class="form-group">
+                    <label for="signup-email">ইমেইল</label>
+                    <input type="email" id="signup-email" placeholder="আপনার ইমেইল দিন">
+                </div>
+                <!-- END OF CHANGE -->
+                <div class="form-group">
+                    <label for="signup-password">পাসওয়ার্ড</label>
+                    <input type="password" id="signup-password" placeholder="নতুন পাসওয়ার্ড তৈরি করুন">
+                </div>
+                <div class="form-group">
+                    <label for="signup-class">ক্লাস</label>
+                    <select id="signup-class"></select>
+                </div>
+                <button class="btn-full" id="signup-btn">একাউন্ট তৈরি করুন</button>
+                <div class="message" id="signup-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User App Section -->
+    <div class="app-container" id="user-app">
+        <div class="header">
+            <div class="nav">
+                <div class="logo">
+                    <h1>এসো পড়ি</h1>
+                </div>
+                <div class="user-info">
+                    <img id="user-avatar" src="" alt="User Avatar" class="user-avatar" onerror="this.src='https://via.placeholder.com/40'">
+                    <span id="user-name">স্টুডেন্ট</span>
+                    <button class="logout-btn" id="refresh-btn" title="রিফ্রেশ করুন">🔄 রিফ্রেশ</button>
+                    <button class="logout-btn" id="user-logout-btn">লগআউট</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="search-container">
+                <div class="search-bar">
+                    <input type="text" id="search-input" class="search-input" placeholder="বিষয় বা টপিক সার্চ করুন...">
+                    <button id="search-btn" style="width: auto; padding: 12px 20px;">সার্চ</button>
+                </div>
+                <div class="toggle-class-filters">
+                    <button id="toggle-class-btn">ক্লাস ফিল্টার দেখুন</button>
+                </div>
+                <div class="class-filters" id="class-filters"></div>
+            </div>
+
+            <div class="welcome-card">
+                <h2 id="welcome-text">স্বাগতম!</h2>
+                <div class="date-display" id="current-date"></div>
+            </div>
+
+            <div class="quick-actions">
+                <div class="action-card" onclick="openShareModal()">
+                    <div class="action-icon">📚</div>
+                    <h3>পড়া শেয়ার করুন</h3>
+                </div>
+                <div class="action-card" onclick="toggleProfileSection()">
+                    <div class="action-icon">👤</div>
+                    <h3>প্রোফাইল</h3>
+                </div>
+                <div class="action-card" onclick="viewAllMaterials()">
+                    <div class="action-icon">📖</div>
+                    <h3>সকল পড়া</h3>
+                </div>
+            </div>
+
+            <div class="admin-panel" id="admin-panel" style="display: none;">
+                <h3>এডমিন কন্ট্রোল প্যানেল</h3>
+                <div class="admin-stats" id="admin-stats"></div>
+                <div class="admin-controls">
+                    <div class="admin-control-card">
+                        <h4>সকল ব্যবহারকারী</h4>
+                        <p>সবাইকে দেখুন ও ম্যানেজ করুন</p>
+                        <button class="btn-full" onclick="showAllUsers()">ব্যবহারকারী দেখুন</button>
+                    </div>
+                    <div class="admin-control-card">
+                        <h4>এডমিন সেটিংস</h4>
+                        <p>ইউজারনেম ও পাসওয়ার্ড পরিবর্তন</p>
+                        <button class="btn-full" onclick="openAdminSettingsModal()">সেটিংস খুলুন</button>
+                    </div>
+                </div>
+                <h4>ক্লাস অনুযায়ী ব্যবহারকারী দেখুন</h4>
+                <div class="admin-class-list" id="admin-class-list"></div>
+            </div>
+
+            <div class="profile-section" id="profile-section">
+                <div class="profile-header">
+                    <img id="profile-avatar" src="" alt="Profile Avatar" class="profile-avatar" onerror="this.src='https://via.placeholder.com/80'">
+                    <div class="profile-info">
+                        <h3 id="profile-name">নাম</h3>
+                        <p id="profile-class">ক্লাস</p>
+                        <!-- START OF CHANGE: Phone display replaced with email display -->
+                        <p id="profile-email">ইমেইল</p>
+                        <!-- END OF CHANGE -->
+                    </div>
+                </div>
+                <div class="profile-update-section" id="profile-update-section" style="display: none;">
+                    <h4>প্রোফাইল আপডেট করুন</h4>
+                    <div class="form-group">
+                        <label>প্রোফাইল ছবি</label>
+                        <div class="avatar-upload-group">
+                            <img id="profile-avatar-preview" src="https://via.placeholder.com/80" alt="Avatar Preview">
+                            <input type="file" id="profile-avatar-upload" accept="image/*" style="display: none;">
+                            <button type="button" class="btn-full" onclick="document.getElementById('profile-avatar-upload').click()">ছবি আপলোড</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-class-select">শ্রেণী</label>
+                        <select id="profile-class-select"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">নতুন পাসওয়ার্ড</label>
+                        <input type="password" id="new-password" placeholder="খালি রাখলে পাসওয়ার্ড পরিবর্তন হবে না">
+                    </div>
+                    <button class="btn-success" id="update-profile-btn">আপডেট করুন</button>
+                    <div class="message" id="profile-message"></div>
+                </div>
+                <button class="btn-full" onclick="toggleProfileUpdate()" id="toggle-profile-btn">প্রোফাইল এডিট করুন</button>
+            </div>
+
+            <div class="users-list" id="users-list" style="display: none;"></div>
+            <div class="study-materials" id="study-materials"></div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal" id="share-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeShareModal()">&times;</span>
+            <h3 style="text-align: center; color: var(--primary); margin-bottom: 20px;">নতুন পড়া শেয়ার করুন</h3>
+            <form id="add-material-form">
+                <div class="form-group"><label for="material-subject">বিষয় *</label><input type="text" id="material-subject" required></div>
+                <div class="form-group"><label for="material-topic">টপিক *</label><input type="text" id="material-topic" required></div>
+                <div class="form-group"><label for="material-description">বিস্তারিত *</label><textarea id="material-description" required></textarea></div>
+                <div class="form-group"><label for="material-homework">বাড়ির কাজ</label><textarea id="material-homework"></textarea></div>
+                <div class="form-group">
+                    <label>ছবি</label>
+                    <input type="file" id="file-upload" accept="image/*" multiple style="display: none;">
+                    <button type="button" class="btn-full" onclick="document.getElementById('file-upload').click()">ছবি আপলোড</button>
+                    <div class="file-preview" id="file-preview"></div>
+                </div>
+                <button type="submit" class="btn-full">📚 শেয়ার করুন</button>
+            </form>
+            <div class="message" id="material-message"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="edit-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeEditModal()">&times;</span>
+            <h3 style="text-align: center; color: var(--primary); margin-bottom: 20px;">পড়া এডিট করুন</h3>
+            <form id="edit-material-form">
+                <input type="hidden" id="edit-material-id">
+                <div class="form-group"><label for="edit-material-subject">বিষয় *</label><input type="text" id="edit-material-subject" required></div>
+                <div class="form-group"><label for="edit-material-topic">টপিক *</label><input type="text" id="edit-material-topic" required></div>
+                <div class="form-group"><label for="edit-material-description">বিস্তারিত *</label><textarea id="edit-material-description" required></textarea></div>
+                <div class="form-group"><label for="edit-material-homework">বাড়ির কাজ</label><textarea id="edit-material-homework"></textarea></div>
+                <div class="form-group">
+                    <label>পূর্ববর্তী ছবি</label>
+                    <div class="file-preview" id="edit-existing-files-preview"></div>
+                    <label>নতুন ছবি যোগ করুন</label>
+                    <input type="file" id="edit-file-upload" accept="image/*" multiple style="display: none;">
+                    <button type="button" class="btn-full" onclick="document.getElementById('edit-file-upload').click()">নতুন ছবি</button>
+                    <div class="file-preview" id="edit-file-preview"></div>
+                </div>
+                <button type="submit" class="btn-success">💾 সেভ করুন</button>
+            </form>
+            <div class="message" id="edit-message"></div>
+        </div>
+    </div>
+
+    <!-- NEW: Admin Settings Modal -->
+    <div class="modal" id="admin-settings-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeAdminSettingsModal()">&times;</span>
+            <h3 style="text-align: center; color: var(--primary); margin-bottom: 20px;">এডমিন সেটিংস</h3>
+            <form id="admin-settings-form">
+                <div class="form-group">
+                    <label for="admin-new-username">নতুন ইউজারনেম</label>
+                    <input type="text" id="admin-new-username" placeholder="খালি রাখলে পরিবর্তন হবে না">
+                </div>
+                <hr style="margin-bottom: 20px; border: 1px solid #f0f0f0;">
+                <div class="form-group">
+                    <label for="admin-current-password">বর্তমান পাসওয়ার্ড (আবশ্যক)</label>
+                    <input type="password" id="admin-current-password" required placeholder="যেকোনো পরিবর্তনের জন্য আবশ্যক">
+                </div>
+                <div class="form-group">
+                    <label for="admin-new-password">নতুন পাসওয়ার্ড</label>
+                    <input type="password" id="admin-new-password" placeholder="খালি রাখলে পরিবর্তন হবে না">
+                </div>
+                <button type="submit" class="btn-success">💾 পরিবর্তন সেভ করুন</button>
+            </form>
+            <div class="message" id="admin-settings-message"></div>
+        </div>
+    </div>
+
+    <div class="image-modal" id="image-modal" onclick="this.style.display='none'">
+        <div class="image-modal-content"><img id="modal-image" src="" alt="Full Screen Image"></div>
+    </div>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+
+    <script>
+        // ==================== FIREBASE CONFIGURATION ====================
+        const firebaseConfig = {
+            apiKey: "AIzaSyAjQvMtvi-WlKKwL7BglwBT6OG6VgEywFY",
+            authDomain: "aso-pori-app-4f9dc.firebaseapp.com",
+            projectId: "aso-pori-app-4f9dc",
+            storageBucket: "aso-pori-app-4f9dc.appspot.com",
+            messagingSenderId: "1093409142483",
+            appId: "1:1093409142483:web:5a4ae53769301056188626",
+            measurementId: "G-QEVSFWXQF3"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+
+        // ==================== GLOBAL VARIABLES & CONSTANTS ====================
+        let currentSearchQuery = '';
+        let currentFilterClass = 'all';
+        let uploadFiles = [];
+        let editUploadFiles = [];
+        let newAvatarFile = null;
+        const CLASS_OPTIONS = {
+            '6': 'ষষ্ঠ শ্রেণী', '7': 'সপ্তম শ্রেণী', '8': 'অষ্টম শ্রেণী',
+            '9': 'নবম শ্রেণী', '10': 'দশম শ্রেণী', 'ssc': 'এসএসসি পরীক্ষার্থী',
+            '11': 'একাদশ শ্রেণী', '12': 'দ্বাদশ শ্রেণী'
+        };
+
+        // ==================== DOM ELEMENTS ====================
+        const authContainer = document.getElementById('auth-container');
+        const userAppContainer = document.getElementById('user-app');
+
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            // This function checks for internet connection as requested.
+            checkInternetConnection();
+            updateDate();
+            setupEventListeners();
+            populateClassDropdowns();
+            auth.onAuthStateChanged(handleAuthStateChange);
+        });
+        
+        // ==================== INTERNET CONNECTION CHECK ====================
+        // This function fulfills the requirement of checking for an internet connection.
+        function checkInternetConnection() {
+            if (!navigator.onLine) {
+                alert("অ্যাপটি ব্যবহার করার জন্য ইন্টারনেট সংযোগ প্রয়োজন। দয়া করে আপনার ইন্টারনেট সংযোগ চেক করুন।");
+                document.body.innerHTML = '<h1 style="text-align: center; margin-top: 50px; color: white;">কোনো ইন্টারনেট সংযোগ নেই</h1>';
+            }
+        }
+
+        // ==================== EVENT LISTENERS SETUP ====================
+        function setupEventListeners() {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabName = tab.getAttribute('data-tab');
+                    document.querySelectorAll('.tab, .form-container').forEach(el => el.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.getElementById(`${tabName}-form`).classList.add('active');
+                });
+            });
+            document.getElementById('login-btn').addEventListener('click', handleLogin);
+            document.getElementById('signup-btn').addEventListener('click', handleSignup);
+            document.getElementById('user-logout-btn').addEventListener('click', handleLogout);
+            
+            document.getElementById('refresh-btn').addEventListener('click', () => {
+                location.reload();
+            });
+
+            document.getElementById('search-btn').addEventListener('click', () => {
+                currentSearchQuery = document.getElementById('search-input').value;
+                loadStudyMaterials();
+            });
+            document.getElementById('toggle-class-btn').addEventListener('click', toggleClassFilters);
+            document.getElementById('add-material-form').addEventListener('submit', addStudyMaterial);
+            document.getElementById('edit-material-form').addEventListener('submit', updateStudyMaterial);
+            document.getElementById('update-profile-btn').addEventListener('click', updateProfile);
+            document.getElementById('file-upload').addEventListener('change', (e) => handleFileUpload(e, 'file-preview', 'upload'));
+            document.getElementById('edit-file-upload').addEventListener('change', (e) => handleFileUpload(e, 'edit-file-preview', 'edit'));
+            document.getElementById('profile-avatar-upload').addEventListener('change', handleAvatarUpload);
+            document.getElementById('admin-settings-form').addEventListener('submit', updateAdminCredentials);
+        }
+
+        // ==================== AUTHENTICATION ====================
+        async function handleAuthStateChange(user) {
+            if (user) {
+                const adminCredsDoc = await db.collection('admin_credentials').doc('credentials').get();
+                if (adminCredsDoc.exists && adminCredsDoc.data().email === user.email) {
+                    const adminData = { uid: user.uid, email: user.email, name: "এডমিন", type: "admin" };
+                    sessionStorage.setItem('currentUser', JSON.stringify(adminData));
+                    showUserApp(adminData);
+                } else {
+                    const userDoc = await db.collection('users').doc(user.uid).get();
+                    if (userDoc.exists) {
+                        const userData = { uid: user.uid, ...userDoc.data() };
+                        sessionStorage.setItem('currentUser', JSON.stringify(userData));
+                        showUserApp(userData);
+                    }
+                }
+            } else {
+                sessionStorage.removeItem('currentUser');
+                showAuth();
+            }
+        }
+
+        // START OF CHANGE: Updated handleLogin function to use email
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            if (!email || !password) return showMessage('login-message', 'ইমেইল এবং পাসওয়ার্ড দিন', 'error');
+            
+            auth.signInWithEmailAndPassword(email, password)
+                .catch(err => showMessage('login-message', 'ভুল ইমেইল বা পাসওয়ার্ড', 'error'));
+        }
+        // END OF CHANGE
+
+        // START OF CHANGE: Updated handleSignup function to use email
+        function handleSignup(e) {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const classValue = document.getElementById('signup-class').value;
+
+            if (!name || !email || !password || !classValue) return showMessage('signup-message', 'সব ঘর পূরণ করুন', 'error');
+
+            auth.createUserWithEmailAndPassword(email, password)
+                .then(cred => db.collection('users').doc(cred.user.uid).set({
+                    name, email: email, class: classValue, type: 'student', avatar: ''
+                }))
+                .then(() => {
+                    showMessage('signup-message', 'একাউন্ট তৈরি হয়েছে! এখন লগইন করুন।', 'success');
+                    document.querySelector('.tab[data-tab="login"]').click();
+                    document.getElementById('login-email').value = email;
+                })
+                .catch(err => showMessage('signup-message', err.code === 'auth/email-already-in-use' ? 'এই ইমেইলে একটি একাউন্ট আছে।' : 'ত্রুটি হয়েছে।', 'error'));
+        }
+        // END OF CHANGE
+
+        async function handleAdminLogin() {
+            const email = prompt("এডমিন ইমেইল:");
+            if (!email) return;
+            const password = prompt("এডমিন পাসওয়ার্ড:");
+            if (!password) return;
+
+            try {
+                const doc = await db.collection('admin_credentials').doc('credentials').get();
+                if (!doc.exists || doc.data().email !== email) {
+                    return alert("এই ইমেইলটি এডমিন হিসেবে রেজিস্টার্ড নয়।");
+                }
+                await auth.signInWithEmailAndPassword(email, password);
+            } catch (error) {
+                if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+                    alert("ভুল ইমেইল অথবা পাসওয়ার্ড।");
+                } else {
+                    alert("লগইন করতে একটি সমস্যা হয়েছে।");
+                }
+            }
+        }
+
+        function handleLogout() { auth.signOut(); }
+
+        // ==================== UI & DISPLAY LOGIC ====================
+        function showAuth() {
+            authContainer.style.display = 'flex';
+            userAppContainer.style.display = 'none';
+        }
+
+        function showUserApp(userData) {
+            authContainer.style.display = 'none';
+            userAppContainer.style.display = 'block';
+
+            document.getElementById('user-name').textContent = `${userData.name}${userData.type === 'admin' ? ' (এডমিন)' : ''}`;
+            const avatarUrl = userData.avatar || 'https://via.placeholder.com/40';
+            const userAvatar = document.getElementById('user-avatar');
+            userAvatar.src = avatarUrl;
+            userAvatar.onclick = () => openImageModal(avatarUrl);
+
+            document.getElementById('welcome-text').textContent = `${userData.name}, স্বাগতম!`;
+            
+            const isAdmin = userData.type === 'admin';
+            document.getElementById('admin-panel').style.display = isAdmin ? 'block' : 'none';
+            if (isAdmin) loadAdminDashboard();
+            
+            loadStudyMaterials();
+            populateClassFilters();
+        }
+
+        function displayStudyMaterials(materials) {
+            const container = document.getElementById('study-materials');
+            const currentUser = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
+            if (materials.length === 0) {
+                container.innerHTML = `<div class="empty-state"><h3>কোন পড়া পাওয়া যায়নি</h3><p>নতুন পড়া শেয়ার করুন!</p></div>`;
+                return;
+            }
+            container.innerHTML = materials.map(m => {
+                const isAuthor = m.authorUid === currentUser.uid;
+                const isAdmin = currentUser.type === 'admin';
+                return `
+                <div class="material-card">
+                    <div class="material-header">
+                        <div>
+                            <h3 class="material-title">${m.subject} - ${m.topic}</h3>
+                            <div class="material-date">${m.createdAt ? formatDate(m.createdAt.toDate()) : ''}</div>
+                            <div class="material-author"><img src="${m.authorAvatar || 'https://via.placeholder.com/30'}" class="author-avatar">${m.author}</div>
+                        </div>
+                        <div class="material-class">${CLASS_OPTIONS[m.class] || ''}</div>
+                    </div>
+                    <div class="material-content"><p>${m.description.replace(/\n/g, '<br>')}</p></div>
+                    ${(m.imageUrls && m.imageUrls.length) ? `<div class="material-images">${m.imageUrls.map(url => `<img src="${url}" class="material-image" onclick="openImageModal('${url}')">`).join('')}</div>` : ''}
+                    ${m.homework ? `<div class="homework"><h4>🏠 বাড়ির কাজ</h4><p>${m.homework.replace(/\n/g, '<br>')}</p></div>` : ''}
+                    ${(isAdmin || isAuthor) ? `<div class="material-actions">
+                        ${isAuthor ? `<button class="edit-btn" onclick="openEditModal('${m.id}')">✏️ এডিট</button>` : ''}
+                        ${isAdmin ? `<button class="delete-btn" onclick="deleteMaterial('${m.id}')">🗑️ মুছুন</button>` : ''}
+                    </div>` : ''}
+                </div>`;
+            }).join('');
+        }
+        
+        // START OF CHANGE: Updated displayUsers to show email instead of phone
+        function displayUsers(users) {
+            const container = document.getElementById('users-list');
+            container.innerHTML = users.length ? users.map(user => {
+                const avatarUrl = user.avatar || 'https://via.placeholder.com/80';
+                return `
+                <div class="user-card">
+                    <img src="${avatarUrl}" class="user-avatar-large" onclick="openImageModal('${avatarUrl}')">
+                    <h3>${user.name}</h3>
+                    <p>${CLASS_OPTIONS[user.class]}</p>
+                    <p>${user.email}</p> 
+                    <div class="user-actions"><button class="btn-danger" onclick="deleteUser('${user.uid}', '${user.name}')">ডিলিট</button></div>
+                </div>`
+            }).join('') : '<p>কোন ব্যবহারকারী নেই।</p>';
+            container.style.display = 'grid';
+        }
+        // END OF CHANGE
+
+        // ==================== DATA HANDLING ====================
+        async function loadStudyMaterials() {
+            try {
+                let query = db.collection('studyMaterials').orderBy('createdAt', 'desc');
+                if (currentFilterClass !== 'all') query = query.where('class', '==', currentFilterClass);
+                const snapshot = await query.get();
+                let materials = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                if (currentSearchQuery.trim()) {
+                    const q = currentSearchQuery.toLowerCase();
+                    materials = materials.filter(m => ['subject', 'topic', 'description'].some(field => m[field] && m[field].toLowerCase().includes(q)));
+                }
+                displayStudyMaterials(materials);
+            } catch (error) { console.error("Error loading materials:", error); }
+        }
+        
+        async function addStudyMaterial(e) {
+            e.preventDefault();
+            const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+            showMessage('material-message', 'শেয়ার করা হচ্ছে...', 'success');
+            const imageUrls = await uploadFilesToStorage(uploadFiles, 'study-materials');
+            await db.collection('studyMaterials').add({
+                subject: document.getElementById('material-subject').value,
+                topic: document.getElementById('material-topic').value,
+                description: document.getElementById('material-description').value,
+                homework: document.getElementById('material-homework').value,
+                imageUrls,
+                author: currentUser.name,
+                authorUid: currentUser.uid,
+                authorAvatar: currentUser.avatar || '',
+                class: currentUser.class,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            closeShareModal();
+            loadStudyMaterials();
+        }
+        
+        async function updateStudyMaterial(e) {
+            e.preventDefault();
+            const id = document.getElementById('edit-material-id').value;
+            showMessage('edit-message', 'আপডেট হচ্ছে...', 'success');
+            const existingImages = Array.from(document.querySelectorAll('#edit-existing-files-preview .file-preview-item img')).map(img => img.src);
+            const newImageUrls = await uploadFilesToStorage(editUploadFiles, 'study-materials');
+            await db.collection('studyMaterials').doc(id).update({
+                subject: document.getElementById('edit-material-subject').value,
+                topic: document.getElementById('edit-material-topic').value,
+                description: document.getElementById('edit-material-description').value,
+                homework: document.getElementById('edit-material-homework').value,
+                imageUrls: [...existingImages, ...newImageUrls]
+            });
+            closeEditModal();
+            loadStudyMaterials();
+        }
+
+        async function deleteMaterial(id) {
+            if (confirm('আপনি কি এই পড়াটি মুছে ফেলতে চান?')) {
+                await db.collection('studyMaterials').doc(id).delete();
+                loadStudyMaterials();
+            }
+        }
+
+        async function updateProfile() {
+            const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+            const userRef = db.collection('users').doc(currentUser.uid);
+            showMessage('profile-message', 'প্রোফাইল আপডেট হচ্ছে...', 'success');
+            let updatedData = { class: document.getElementById('profile-class-select').value };
+            if (newAvatarFile) {
+                const avatarUrl = await uploadFilesToStorage([newAvatarFile], `avatars/${currentUser.uid}`);
+                updatedData.avatar = avatarUrl[0];
+            }
+            await userRef.update(updatedData);
+            const newPassword = document.getElementById('new-password').value;
+            if (newPassword) {
+                try { await auth.currentUser.updatePassword(newPassword); }
+                catch (error) { return showMessage('profile-message', 'পাসওয়ার্ড আপডেটে সমস্যা। আবার লগইন করে চেষ্টা করুন।', 'error'); }
+            }
+            const updatedUserDoc = await userRef.get();
+            const newUserData = { uid: currentUser.uid, ...updatedUserDoc.data() };
+            sessionStorage.setItem('currentUser', JSON.stringify(newUserData));
+            showUserApp(newUserData);
+            loadProfileData();
+            showMessage('profile-message', 'প্রোফাইল আপডেট হয়েছে!', 'success');
+        }
+
+        // ==================== ADMIN FUNCTIONS ====================
+        async function loadAdminDashboard() {
+            const users = await db.collection('users').get();
+            const materials = await db.collection('studyMaterials').get();
+            document.getElementById('admin-stats').innerHTML = `
+                <div class="stat-card"><div class="stat-number">${users.size}</div><div class="stat-label">মোট ব্যবহারকারী</div></div>
+                <div class="stat-card"><div class="stat-number">${materials.size}</div><div class="stat-label">মোট পড়া</div></div>`;
+            const classes = [...new Set(users.docs.map(doc => doc.data().class))];
+            document.getElementById('admin-class-list').innerHTML = classes.sort().map(c => `
+                <div class="admin-class-card" onclick="showUsersByClass('${c}')">${CLASS_OPTIONS[c]}</div>`).join('');
+        }
+        
+        async function showAllUsers() {
+            const snapshot = await db.collection('users').get();
+            displayUsers(snapshot.docs.map(doc => ({ uid: doc.id, ...doc.data() })));
+        }
+        
+        async function showUsersByClass(classValue) {
+            const snapshot = await db.collection('users').where('class', '==', classValue).get();
+            displayUsers(snapshot.docs.map(doc => ({ uid: doc.id, ...doc.data() })));
+        }
+        
+        async function deleteUser(uid, name) {
+            if (confirm(`${name}-কে কি মুছে ফেলতে চান?`)) {
+                await db.collection('users').doc(uid).delete();
+                alert('ব্যবহারকারীকে মুছে ফেলা হয়েছে।');
+                showAllUsers();
+                loadAdminDashboard();
+            }
+        }
+        
+        async function updateAdminCredentials(e) {
+            e.preventDefault();
+            const currentPassword = document.getElementById('admin-current-password').value;
+            const newUsername = document.getElementById('admin-new-username').value.trim();
+            const newPassword = document.getElementById('admin-new-password').value;
+            
+            if (!currentPassword) {
+                return showMessage('admin-settings-message', 'যেকোনো পরিবর্তনের জন্য বর্তমান পাসওয়ার্ড আবশ্যক।', 'error');
+            }
+            if (!newUsername && !newPassword) {
+                return showMessage('admin-settings-message', 'পরিবর্তনের জন্য নতুন ইউজারনেম বা পাসওয়ার্ড দিন।', 'warning');
+            }
+
+            showMessage('admin-settings-message', 'তথ্য প্রসেস করা হচ্ছে...', 'success');
+            const user = auth.currentUser;
+            const credential = firebase.auth.EmailAuthProvider.credential(user.email, currentPassword);
+            
+            try {
+                await user.reauthenticateWithCredential(credential);
+                
+                if (newUsername) {
+                    await db.collection('admin_credentials').doc('credentials').update({ username: newUsername });
+                }
+                
+                if (newPassword) {
+                    await user.updatePassword(newPassword);
+                }
+                
+                showMessage('admin-settings-message', 'সফলভাবে আপডেট হয়েছে!', 'success');
+                setTimeout(closeAdminSettingsModal, 2000);
+
+            } catch (error) {
+                if (error.code === 'auth/wrong-password') {
+                    showMessage('admin-settings-message', 'আপনার বর্তমান পাসওয়ার্ডটি ভুল।', 'error');
+                } else {
+                    showMessage('admin-settings-message', 'একটি সমস্যা হয়েছে, আবার চেষ্টা করুন।', 'error');
+                }
+            }
+        }
+
+
+        // ==================== UTILITY & HELPER FUNCTIONS ====================
+        function formatDate(date) { return new Date(date).toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }); }
+        function populateClassDropdowns() {
+            const options = Object.entries(CLASS_OPTIONS).map(([val, text]) => `<option value="${val}">${text}</option>`).join('');
+            document.getElementById('signup-class').innerHTML = `<option value="">ক্লাস নির্বাচন করুন</option>${options}`;
+            document.getElementById('profile-class-select').innerHTML = options;
+        }
+        function populateClassFilters() {
+            const filters = Object.entries(CLASS_OPTIONS).map(([val, text]) => `<div class="class-filter" data-class="${val}">${text}</div>`).join('');
+            document.getElementById('class-filters').innerHTML = `<div class="class-filter active" data-class="all">সকল শ্রেণী</div>${filters}`;
+            document.querySelectorAll('.class-filter').forEach(filter => {
+                filter.addEventListener('click', () => {
+                    document.querySelector('.class-filter.active').classList.remove('active');
+                    filter.classList.add('active');
+                    currentFilterClass = filter.getAttribute('data-class');
+                    loadStudyMaterials();
+                });
+            });
+        }
+        function handleFileUpload(event, previewId, type) {
+            const files = Array.from(event.target.files);
+            if (type === 'upload') uploadFiles = files; else if (type === 'edit') editUploadFiles = files;
+            const previewContainer = document.getElementById(previewId);
+            previewContainer.innerHTML = '';
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = e => { previewContainer.innerHTML += `<div class="file-preview-item"><img src="${e.target.result}"></div>`; };
+                reader.readAsDataURL(file);
+            });
+        }
+        function handleAvatarUpload(event) {
+            newAvatarFile = event.target.files[0];
+            if (newAvatarFile) {
+                const reader = new FileReader();
+                reader.onload = e => document.getElementById('profile-avatar-preview').src = e.target.result;
+                reader.readAsDataURL(newAvatarFile);
+            }
+        }
+        async function uploadFilesToStorage(files, path) {
+            if (!files || files.length === 0) return [];
+            const promises = files.map(file => storage.ref(`${path}/${Date.now()}-${file.name}`).put(file).then(snap => snap.ref.getDownloadURL()));
+            return Promise.all(promises);
+        }
+        function showMessage(elementId, message, type) {
+            const el = document.getElementById(elementId);
+            el.className = `message ${type}`;
+            el.textContent = message;
+            el.style.display = 'block';
+            if (type !== 'success') {
+                setTimeout(() => { if (el.textContent === message) el.style.display = 'none'; }, 5000);
+            }
+        }
+        function updateDate() { document.getElementById('current-date').textContent = new Date().toLocaleDateString('bn-BD', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });}
+
+        // ==================== MODAL & UI TOGGLES ====================
+        function openShareModal() { document.getElementById('share-modal').style.display = 'flex'; }
+        function closeShareModal() {
+            document.getElementById('share-modal').style.display = 'none';
+            document.getElementById('add-material-form').reset();
+            document.getElementById('file-preview').innerHTML = '';
+            uploadFiles = [];
+        }
+        async function openEditModal(id) {
+            const doc = await db.collection('studyMaterials').doc(id).get();
+            if (!doc.exists) return;
+            const m = doc.data();
+            document.getElementById('edit-material-id').value = id;
+            document.getElementById('edit-material-subject').value = m.subject;
+            document.getElementById('edit-material-topic').value = m.topic;
+            document.getElementById('edit-material-description').value = m.description;
+            document.getElementById('edit-material-homework').value = m.homework || '';
+            document.getElementById('edit-existing-files-preview').innerHTML = (m.imageUrls || []).map(url => `
+                <div class="file-preview-item"><img src="${url}"><button type="button" class="remove-file" onclick="this.parentElement.remove()">×</button></div>`).join('');
+            document.getElementById('edit-modal').style.display = 'flex';
+        }
+        function closeEditModal() {
+            document.getElementById('edit-modal').style.display = 'none';
+            document.getElementById('edit-material-form').reset();
+            document.getElementById('edit-existing-files-preview').innerHTML = '';
+            document.getElementById('edit-file-preview').innerHTML = '';
+            editUploadFiles = [];
+        }
+        function openAdminSettingsModal() { document.getElementById('admin-settings-modal').style.display = 'flex'; }
+        function closeAdminSettingsModal() { 
+            document.getElementById('admin-settings-modal').style.display = 'none';
+            document.getElementById('admin-settings-form').reset();
+            const msgEl = document.getElementById('admin-settings-message');
+            msgEl.style.display = 'none';
+            msgEl.textContent = '';
+        }
+        function openImageModal(url) {
+            if (!url || url.includes('via.placeholder.com')) return;
+            document.getElementById('modal-image').src = url;
+            document.getElementById('image-modal').style.display = 'flex';
+        }
+        function toggleProfileSection() {
+            const section = document.getElementById('profile-section');
+            section.style.display = section.style.display === 'block' ? 'none' : 'block';
+            if (section.style.display === 'block') loadProfileData();
+        }
+        function toggleProfileUpdate() {
+            const section = document.getElementById('profile-update-section');
+            const btn = document.getElementById('toggle-profile-btn');
+            const isHidden = section.style.display === 'none';
+            section.style.display = isHidden ? 'block' : 'none';
+            btn.textContent = isHidden ? 'ফর্ম লুকান' : 'প্রোফাইল এডিট করুন';
+        }
+        
+        // START OF CHANGE: Updated loadProfileData to show email
+        function loadProfileData() {
+            const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+            if (!currentUser || currentUser.type === 'admin') {
+                document.getElementById('profile-section').style.display = 'none';
+                return;
+            };
+            document.getElementById('profile-name').textContent = currentUser.name;
+            document.getElementById('profile-class').textContent = CLASS_OPTIONS[currentUser.class];
+            document.getElementById('profile-email').textContent = currentUser.email;
+            const avatarSrc = currentUser.avatar || 'https://via.placeholder.com/80';
+            const profileAvatar = document.getElementById('profile-avatar');
+            profileAvatar.src = avatarSrc;
+            profileAvatar.onclick = () => openImageModal(avatarSrc);
+            
+            document.getElementById('profile-avatar-preview').src = avatarSrc;
+            document.getElementById('profile-class-select').value = currentUser.class;
+        }
+        // END OF CHANGE
+
+        function toggleClassFilters() {
+            const filters = document.getElementById('class-filters');
+            const btn = document.getElementById('toggle-class-btn');
+            const isHidden = filters.style.display === 'none';
+            filters.style.display = isHidden ? 'flex' : 'none';
+            btn.textContent = isHidden ? 'ক্লাস ফিল্টার লুকান' : 'ক্লাস ফিল্টার দেখুন';
+        }
+        function viewAllMaterials() { document.getElementById('study-materials').scrollIntoView({ behavior: 'smooth' }); }
+
+        // Make functions globally accessible
+        window.handleAdminLogin = handleAdminLogin;
+        window.openShareModal = openShareModal;
+        window.closeShareModal = closeShareModal;
+        window.openEditModal = openEditModal;
+        window.closeEditModal = closeEditModal;
+        window.deleteMaterial = deleteMaterial;
+        window.toggleProfileSection = toggleProfileSection;
+        window.toggleProfileUpdate = toggleProfileUpdate;
+        window.viewAllMaterials = viewAllMaterials;
+        window.openImageModal = openImageModal;
+        window.showAllUsers = showAllUsers;
+        window.showUsersByClass = showUsersByClass;
+        window.deleteUser = deleteUser;
+        window.openAdminSettingsModal = openAdminSettingsModal;
+        window.closeAdminSettingsModal = closeAdminSettingsModal;
+    </script>
+</body>
+</html>
